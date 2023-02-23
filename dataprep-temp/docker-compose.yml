@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+    dev-redis:
+        container_name: dev-redis
+        image: redis:alpine
+        ports:
+            -  "6379:6379"
+        restart: always
+        networks:
+            -  dev-network
+
+    dev-mongodb:
+        container_name: dev-mongodb
+        image: mongo:latest
+        environment:
+            - MONGO_DATA_DIR= /data/db
+            - MONGO_LOG_DIR= /dev/null
+            - MONGO_INITDB_DATABASE=qpiai
+            - MONGO_INITDB_ROOT_USERNAME=qpiai
+            - MONGO_INITDB_ROOT_PASSWORD=qpiai
+        volumes:
+            -  mongo-data:/data/db
+        ports:
+            -  "27017:27017"
+        networks:
+            -  dev-network
+
+volumes:
+    mongo-data:
+
+networks:
+    dev-network:
